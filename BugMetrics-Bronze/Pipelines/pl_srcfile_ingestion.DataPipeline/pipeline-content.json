@@ -1,0 +1,166 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "formatSettings": {
+              "type": "DelimitedTextReadSettings"
+            },
+            "additionalColumns": [
+              {
+                "name": "CreateDateTime",
+                "value": {
+                  "value": "@utcNow()",
+                  "type": "Expression"
+                }
+              },
+              {
+                "name": "PipelineRunID",
+                "value": {
+                  "value": "@pipeline().RunId",
+                  "type": "Expression"
+                }
+              }
+            ],
+            "storeSettings": {
+              "type": "AzureBlobStorageReadSettings",
+              "recursive": true,
+              "enablePartitionDiscovery": false
+            },
+            "datasetSettings": {
+              "type": "DelimitedText",
+              "typeProperties": {
+                "location": {
+                  "type": "LakehouseLocation",
+                  "folderPath": {
+                    "value": "@pipeline().parameters.src_path",
+                    "type": "Expression"
+                  },
+                  "fileName": {
+                    "value": "@pipeline().parameters.file_name",
+                    "type": "Expression"
+                  }
+                },
+                "columnDelimiter": {
+                  "value": "@pipeline().parameters.Delimiter",
+                  "type": "Expression"
+                },
+                "quoteChar": "\"",
+                "escapeChar": "\\",
+                "firstRowAsHeader": true,
+                "multiline": false
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "lh_BugMetrics_Bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "8272d4a1-7bfc-ae03-4be7-f905eed63a94",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Files"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "applyVOrder": false,
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": {
+                  "value": "@pipeline().parameters.Tgt_Schema",
+                  "type": "Expression"
+                },
+                "table": {
+                  "value": "@pipeline().parameters.Tgt_Table",
+                  "type": "Expression"
+                }
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "lh_BugMetrics_Bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "8272d4a1-7bfc-ae03-4be7-f905eed63a94",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false,
+          "enableSkipIncompatibleRow": true,
+          "logSettings": {
+            "enableCopyActivityLog": true,
+            "copyActivityLogSettings": {
+              "logLevel": "Info",
+              "enableReliableLogging": true
+            },
+            "logLocationSettings": {
+              "externalReferences": {
+                "connection": "0d32efe6-369e-44ac-8e76-43475c339a0e"
+              }
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy source file",
+        "dependsOn": []
+      }
+    ],
+    "parameters": {
+      "src_path": {
+        "type": "string",
+        "defaultValue": "landing"
+      },
+      "file_name": {
+        "type": "string",
+        "defaultValue": "brnz_azdo_workitems_current_anonymized.csv.csv"
+      },
+      "Delimiter": {
+        "type": "string",
+        "defaultValue": ";"
+      },
+      "IsHeaderAvailable": {
+        "type": "bool",
+        "defaultValue": true
+      },
+      "Tgt_Schema": {
+        "type": "string",
+        "defaultValue": "dbo"
+      },
+      "Tgt_Table": {
+        "type": "string",
+        "defaultValue": "BugMetrics"
+      }
+    }
+  }
+}
