@@ -98,6 +98,8 @@ srcdf = srcdf.withColumn("PipelineRunID",lit(f'{PipelineID}')).withColumn("Creat
 
 srcdf = validate_data(srcdf,'ProductID','')
 
+check_pattern(srcdf,'ProductName','^Product_\d{3}$')
+
 #display(srcdf)
 
 # METADATA ********************

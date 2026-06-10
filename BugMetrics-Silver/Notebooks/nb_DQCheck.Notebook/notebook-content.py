@@ -74,3 +74,30 @@ def validate_data(sourcedf,primary_keys,order_byfield):
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# CELL ********************
+
+from pyspark.sql.functions import col
+
+
+def check_pattern(df, column, pattern):
+    df_checked = df.withColumn(
+        "IsValid",
+        col(column).rlike(pattern)
+    )
+
+    invalid_count = df_checked.filter("IsValid IS NULL OR IsValid = false").count()
+
+    if invalid_count > 0:
+        print(f"Wrong pattern records available: {invalid_count} row(s) in column '{column}'")
+    else:
+        print("No bad records")
+
+    return df_checked.filter("IsValid = true").drop("IsValid")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
