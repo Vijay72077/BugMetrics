@@ -1,0 +1,203 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {},
+          "waitOnCompletion": true,
+          "workspaceId": "a03811b6-1df1-4d4b-9a29-fa9b9eb435b9",
+          "pipelineId": "9964f0da-0a27-4e7d-9dd9-40c70d1188b9",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "c57c38f3-4e9a-4a1a-92bc-13ea3e5fcc6c"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Copy File to Table",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "9408fdec-4a89-4773-8fdd-ddb51e4cdef0",
+          "workspaceId": "918d733d-ee77-49cb-a30f-4e5628da90c1",
+          "parameters": {
+            "PipelineID": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze to Silver - DimProduct",
+        "dependsOn": [
+          {
+            "activity": "Copy File to Table",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "b4102ec4-dc87-4ce7-95bb-428ee1264c03",
+          "workspaceId": "918d733d-ee77-49cb-a30f-4e5628da90c1",
+          "parameters": {
+            "PipelineID": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Bronze to Silver - FactBug",
+        "dependsOn": [
+          {
+            "activity": "Copy File to Table",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "b95be3f7-63ab-b406-460a-03b739388b17",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "PipelineID": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver to Gold - DimProduct",
+        "dependsOn": [
+          {
+            "activity": "Bronze to Silver - DimProduct",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "ac824581-4a85-a4a5-41b8-72baba4c11f5",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "PipelineID": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Silver to Gold - FactBug",
+        "dependsOn": [
+          {
+            "activity": "Silver to Gold - DimProduct",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Bronze to Silver - FactBug",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "PBISemanticModelRefresh",
+        "typeProperties": {
+          "method": "POST",
+          "groupId": "8d179063-5eb0-4933-b542-4dabe5266475",
+          "datasetId": "44e53e29-6e71-4697-826d-c594b4e5a7d8",
+          "commitMode": "Transactional",
+          "objects": [
+            {
+              "table": "bugmetrics_fact"
+            },
+            {
+              "table": "date_dim"
+            },
+            {
+              "table": "product_dim"
+            }
+          ],
+          "waitOnCompletion": true,
+          "operationType": "SemanticModelRefresh"
+        },
+        "externalReferences": {
+          "connection": "32e32231-ef33-4276-b78d-a8ea3eec211b"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Semantic model",
+        "dependsOn": [
+          {
+            "activity": "Silver to Gold - FactBug",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "pl_master_bugmetrics"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "d1e93bfc-510d-91db-4b5a-4b292c97e9f6"
+  }
+}
