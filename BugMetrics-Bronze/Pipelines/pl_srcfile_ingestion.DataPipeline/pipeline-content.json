@@ -6,7 +6,7 @@
         "typeProperties": {
           "source": {
             "type": "LakehouseTableSource",
-            "sqlReaderQuery": "select 'BugMetrics' AS Tgt_Table,'landing' as src_path,'brnz_azdo_workitems_current_anonymized' as file_name,';' as Delimiter,'dbo' as Tgt_Schema",
+            "sqlReaderQuery": "select 'BugMetrics' AS Tgt_Table,'landing' as src_path,'brnz_azdo_workitems_current_anonymized.csv.csv' as file_name,';' as Delimiter,'dbo' as Tgt_Schema",
             "partitionOption": "None"
           },
           "datasetSettings": {
