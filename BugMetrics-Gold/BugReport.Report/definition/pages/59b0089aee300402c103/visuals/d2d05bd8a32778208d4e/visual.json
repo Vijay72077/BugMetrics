@@ -1,18 +1,37 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "b4a904ef65149aaac513",
+  "name": "d2d05bd8a32778208d4e",
   "position": {
-    "x": 136.04344453064391,
-    "y": 50.643910007757952,
-    "z": 0,
-    "height": 129.09231962761831,
-    "width": 246.26842513576415,
-    "tabOrder": 0
+    "x": 626.59425911559345,
+    "y": 115.19006982156711,
+    "z": 1,
+    "height": 306.8425135764158,
+    "width": 383.30488750969744,
+    "tabOrder": 1
   },
   "visual": {
-    "visualType": "tableEx",
+    "visualType": "pivotTable",
     "query": {
       "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "date_dim"
+                    }
+                  },
+                  "Property": "YearMonth"
+                }
+              },
+              "queryRef": "date_dim.YearMonth",
+              "nativeQueryRef": "YearMonth",
+              "active": true
+            }
+          ]
+        },
         "Values": {
           "projections": [
             {
@@ -33,20 +52,6 @@
               },
               "queryRef": "Sum(bugmetrics_fact.TotalBugs)",
               "nativeQueryRef": "Sum of TotalBugs"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "product_dim"
-                    }
-                  },
-                  "Property": "ProductName"
-                }
-              },
-              "queryRef": "product_dim.ProductName",
-              "nativeQueryRef": "ProductName"
             }
           ]
         }
@@ -55,18 +60,13 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Column": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "bugmetrics_fact"
-                      }
-                    },
-                    "Property": "TotalBugs"
+                  "SourceRef": {
+                    "Entity": "date_dim"
                   }
                 },
-                "Function": 0
+                "Property": "YearMonth"
               }
             },
             "direction": "Ascending"
@@ -79,7 +79,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "32e44d8db7cb863363a1",
+        "name": "d9934d00035e587ec911",
         "field": {
           "Aggregation": {
             "Expression": {
@@ -98,15 +98,15 @@
         "type": "Advanced"
       },
       {
-        "name": "e5fb7c6d961e56882210",
+        "name": "73642c0840a07c5d7aae",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "product_dim"
+                "Entity": "date_dim"
               }
             },
-            "Property": "ProductName"
+            "Property": "YearMonth"
           }
         },
         "type": "Categorical"
