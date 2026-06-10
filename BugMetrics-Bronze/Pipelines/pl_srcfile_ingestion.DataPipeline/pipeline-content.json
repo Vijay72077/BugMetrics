@@ -258,16 +258,19 @@
                     "fileExtension": ".txt"
                   },
                   "storeSettings": {
-                    "type": "LakehouseWriteSettings"
+                    "type": "AzureBlobStorageWriteSettings"
                   },
                   "datasetSettings": {
                     "type": "DelimitedText",
                     "typeProperties": {
                       "location": {
                         "type": "LakehouseLocation",
-                        "folderPath": "archive",
+                        "folderPath": {
+                          "value": "@{concat('archive/',formatDateTime(utcnow(),'yyyyMMdd'))}",
+                          "type": "Expression"
+                        },
                         "fileName": {
-                          "value": "@{concat(formatDateTime(utcnow(),'yyyyMMdd'))}",
+                          "value": "@item().file_name",
                           "type": "Expression"
                         }
                       },
