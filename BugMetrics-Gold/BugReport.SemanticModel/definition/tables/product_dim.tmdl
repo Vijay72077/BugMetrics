@@ -1,0 +1,67 @@
+table product_dim
+	lineageTag: 93f36889-b439-4b23-8b13-f94d4662b9de
+	sourceLineageTag: [dbo].[product_dim]
+
+	column ProductID
+		dataType: string
+		lineageTag: a123f0b5-c58a-41c1-8fa2-bb850b666c6c
+		sourceLineageTag: ProductID
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 9594722a-ae6d-4700-8218-2730d71bc76c
+		sourceLineageTag: ProductName
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreateDateTime
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 20af138c-084d-46ff-8a27-f40093de9d75
+		sourceLineageTag: CreateDateTime
+		summarizeBy: none
+		sourceColumn: CreateDateTime
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModifiedDateTime
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b9077a34-da33-4337-810e-95b24063cf1f
+		sourceLineageTag: ModifiedDateTime
+		summarizeBy: none
+		sourceColumn: ModifiedDateTime
+
+		annotation SummarizationSetBy = Automatic
+
+	column PipelineRunID
+		dataType: string
+		lineageTag: c6ff29ed-f771-4c24-8284-75618aa1166b
+		sourceLineageTag: PipelineRunID
+		summarizeBy: none
+		sourceColumn: PipelineRunID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductSK
+		dataType: string
+		lineageTag: 9c2e52a3-5f60-4b44-a42c-90dabf775e9a
+		sourceLineageTag: ProductSK
+		summarizeBy: none
+		sourceColumn: ProductSK
+
+		annotation SummarizationSetBy = Automatic
+
+	partition product_dim = entity
+		mode: directLake
+		source
+			entityName: product_dim
+			schemaName: dbo
+			expressionSource: 'DirectLake - lh_BugMetrics_Gold'
+

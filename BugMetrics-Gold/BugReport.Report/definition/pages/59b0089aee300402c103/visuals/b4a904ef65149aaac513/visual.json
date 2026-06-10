@@ -1,0 +1,111 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "b4a904ef65149aaac513",
+  "position": {
+    "x": 119.26327193932828,
+    "y": 106.78223185265439,
+    "z": 0,
+    "height": 416.03466955579631,
+    "width": 628.21235102925243,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "bugmetrics_fact"
+                        }
+                      },
+                      "Property": "TotalBugs"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(bugmetrics_fact.TotalBugs)",
+              "nativeQueryRef": "Sum of TotalBugs"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "date_dim"
+                    }
+                  },
+                  "Property": "DateKey"
+                }
+              },
+              "queryRef": "date_dim.DateKey",
+              "nativeQueryRef": "DateKey"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "date_dim"
+                  }
+                },
+                "Property": "DateKey"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "32e44d8db7cb863363a1",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "bugmetrics_fact"
+                  }
+                },
+                "Property": "TotalBugs"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "bdf5dd0e0ce0847dd704",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "date_dim"
+              }
+            },
+            "Property": "DateKey"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

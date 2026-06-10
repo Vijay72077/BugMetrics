@@ -1,0 +1,9 @@
+expression 'DirectLake - lh_BugMetrics_Gold' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/8d179063-5eb0-4933-b542-4dabe5266475/d3383ed3-ad62-472a-be01-5d80798c756e", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: 6a5aaba1-6140-4d35-a9fd-ab2b26292d23
+
+	annotation PBI_IncludeFutureArtifacts = False
+

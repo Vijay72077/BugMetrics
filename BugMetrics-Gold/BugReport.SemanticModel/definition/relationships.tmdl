@@ -1,0 +1,8 @@
+relationship 1e5d9223-8a2a-e919-d42e-e36e19c8fb89
+	fromColumn: bugmetrics_fact.ProductSK
+	toColumn: product_dim.ProductSK
+
+relationship 2cd0b06e-0719-445c-69be-022adc630f18
+	fromColumn: bugmetrics_fact.CreateDateSK
+	toColumn: date_dim.DateSK
+
