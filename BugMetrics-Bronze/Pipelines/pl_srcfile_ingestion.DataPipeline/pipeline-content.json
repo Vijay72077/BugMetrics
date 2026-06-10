@@ -71,9 +71,8 @@
           },
           "sink": {
             "type": "LakehouseTableSink",
-            "tableActionOption": "OverwriteSchema",
+            "tableActionOption": "Append",
             "applyVOrder": false,
-            "partitionOption": "None",
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
