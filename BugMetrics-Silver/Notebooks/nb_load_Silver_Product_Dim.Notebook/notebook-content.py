@@ -137,6 +137,6 @@ target_table.alias("t").merge(
 # META {
 # META   "language": "sparksql",
 # META   "language_group": "synapse_pyspark",
-# META   "frozen": false,
-# META   "editable": true
+# META   "frozen": true,
+# META   "editable": false
 # META }
